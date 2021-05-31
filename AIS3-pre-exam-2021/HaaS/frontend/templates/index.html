@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaaS</title>
+</head>
+<body>
+    <h1>
+        HealthCheck as a Service
+        <br>
+    </h1>
+    <p>Keep social distance!</p>
+    <p>Instead, we will help you to check whether the site is healthy !</p>
+    <form action='/haas' method='POST'>
+        <label>url</label>
+        <input name='url' value='https://httpstat.us/500'>
+        <input name='status' hidden value='200'>    
+        <input type=submit> </input>
+    </form>
+</body>
+</html>
