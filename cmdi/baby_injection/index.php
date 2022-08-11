@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_GET['file'])) {
-    if (!preg_match('/[\$;\n`\.]/', $_GET['file'])) {
+    if (!preg_match('/[\$;\n`\.]|flag/', $_GET['file'])) {
         $file = $_GET['file'];
         $dst = uniqid() . $file;
         system("cp /tmp/$file $dst");
