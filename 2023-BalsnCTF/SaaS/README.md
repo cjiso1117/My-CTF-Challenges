@@ -8,7 +8,7 @@ tags: note
 
 # SaaS
 
-![](https://hackmd.io/_uploads/r1IqunQ-p.png =400x400)
+<img src="https://hackmd.io/_uploads/r1IqunQ-p.png" width=400>
 
 ## Description
 :::warning
@@ -20,11 +20,9 @@ Author's murmur warning! u can jump to [Overview](#Overview).
 - The official doesn't support dynamic creation of schema validation by default, and fastify only precompile schema validation once when the server startup.
 - I try to find the real use case or plugin that support dynamic schema/route creation, and the official doesn't like this proposal. see https://github.com/fastify/help/issues/149
 - The package `fast-json-stringify` is used to create validator. Thus, I try to find any dependents which has any use case that creates validator from untrusted user input, and 404 not found.
-![](https://hackmd.io/_uploads/H1hhd27Wp.png =400x300)
-
+<img src="https://hackmd.io/_uploads/H1hhd27Wp.png" width=400>
 - Also, document mentions this [security notice](https://www.npmjs.com/package/fast-json-stringify?activeTab=readme#user-content-security-notice)
-![](https://hackmd.io/_uploads/rkWRd2mZ6.png =500x250)
-
+<img src="https://hackmd.io/_uploads/rkWRd2mZ6.png" width=500>
 - But it is CTF,impractialty is ok, right? And deadline is approaching... That's make it a service to create dynamic schema!
 - An additional part is nginx. Since ginoah estimated about 50~100 solves (`easy+++++++`), i comed up with it  when i was reading document for solving ginoah's 1linenginx.
 - Then ginoah and kaibro solved this part as soon as they read it. Only i learned it in 2023.
