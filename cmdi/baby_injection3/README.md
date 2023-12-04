@@ -1,2 +1,0 @@
-- To run the challenge: `docker-compose up`
-- `curl http://localhost:7777/`
