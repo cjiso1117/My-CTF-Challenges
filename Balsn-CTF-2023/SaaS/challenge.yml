@@ -1,0 +1,36 @@
+name: "SaaS"
+author: "cjiso1117"
+category: web
+description: |
+  Who will do this?
+flags:
+  - BALSN{N0t_R3al1y_aN_u3s_Ca53}
+
+# Optional
+# topics:
+#   - web
+#   - happy
+# port: 5000
+# tags:
+#   - web
+# healthcheck: writeup/exploit.sh
+# files:
+#   - dist/source.py
+# hints:
+#   - {
+#       content: "This hint costs points",
+#       cost: 10
+#     }
+#   - This hint is free
+
+# Please don't change these settings
+image: null
+host: null
+value: 100
+type: dynamic
+extra:
+  initial: 500
+  decay: 100
+  minimum: 50
+state: hidden
+version: "0.1"
