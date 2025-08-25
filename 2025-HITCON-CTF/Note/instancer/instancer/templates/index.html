@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<head>
+    <title>{{config.title}}</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+    <style>
+        body {
+            font-family: Menlo, Consolas, Monaco, 'Liberation Mono', 'Lucida Console', monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>{{ config.title }}</h1>
+        <article>
+            {% if not instances %}
+            <form action="/create" method="POST" style="display: flex; flex-direction: row; gap: 1rem">
+                <input type="text" name="token" placeholder="Team Token" style="flex: 1" required>
+                <input type="submit" value="Create New Instance">
+            </form>
+            <p>
+                Instances will be stopped in {{ config.stop_after }} seconds after its creation, and the instance can only be accessed by the IP that created it.
+            </p>
+            <p>Your IP: {{ source_ip }}</p>
+            {% else %}
+            <p>Your instance:</p>
+            <p>
+                {% for srv_id, service in config.services.items() %}
+                - {{service.name}}:
+                {% if service.mode.lower() == 'web' %}
+                <a href="//{{ service.host.format(instance_id=instances[srv_id][0]) }}">
+                    {{ service.host.format(instance_id=instances[srv_id][0]) }}
+                </a>
+                {% elif 'connect_str' in service %}
+                {{ service.connect_str.format(host=request.host.split(':')[0], port=instances[srv_id][1]) | safe }}
+                {% else %}
+                <code>{{ request.host.split(':')[0] }}:{{ instances[srv_id][1] }}</code>
+                {% endif %}
+                <br />
+                {% endfor %}
+            </p>
+            <div>
+                Created at <time id="created"></time><br />
+                Stopping at <time id="stop"></time>, in <span id="countdown"></span>.
+            </div>
+            <form action="/stop" method="POST" style="text-align: center">
+                <input type="submit" value="Stop Now" style="background-color:red">
+            </form>
+
+            <script>
+                {% set stop_at = created_at + config.stop_after %}
+                const fmt = new Intl.DateTimeFormat([], { dateStyle: 'medium', timeStyle: 'long' });
+                document.getElementById('created').textContent = fmt.format({{ created_at*1000 }});
+                document.getElementById('stop').textContent = fmt.format({{ stop_at*1000 }});
+                const countdown = document.getElementById('countdown');
+                const update = () => {
+                    const diff = Math.max(0, {{ stop_at }} - Date.now() / 1000);
+                let countdownText = '';
+                const hours = Math.floor(diff / 3600);
+                countdownText += hours ? `${hours}h ` : '';
+                const minutes = Math.floor((diff % 3600) / 60);
+                countdownText += minutes ? `${minutes}m ` : '';
+                const seconds = Math.floor(diff % 60);
+                countdownText += `${seconds}s`;
+                countdown.textContent = countdownText;
+                if (diff > 0) {
+                    setTimeout(update, 1000);
+                } else {
+                    countdown.textContent = '0s';
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 5000);
+                }
+                };
+                update();
+            </script>
+            {% endif %}
+
+        </article>
+    </main>
+</body>

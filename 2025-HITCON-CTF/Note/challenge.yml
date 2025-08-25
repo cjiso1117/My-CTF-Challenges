@@ -1,0 +1,15 @@
+challenge_name: Note
+name: web_note-chal
+description: |
+  ineteresting features found at work.  
+  they are features, right?
+  Create Instance: https://note.chal.hitconctf.com
+flag: hitcon{g00gle how to prevent path traversal in laravel}
+author: cjiso1117, ggsmita
+category: web
+attachment: ./dist
+
+ports: # TCP ports to expose
+  - 80
+  - 443
+compose: ./docker-compose.yml

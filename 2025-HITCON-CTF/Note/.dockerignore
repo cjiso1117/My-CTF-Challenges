@@ -1,0 +1,7 @@
+src/database/database.sqlite
+src/node_modules/
+firefox/
+src/vendor/
+src/storage/app/private/*
+src/storage/app/public/*
+src/public/build

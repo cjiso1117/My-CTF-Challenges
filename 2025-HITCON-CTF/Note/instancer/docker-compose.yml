@@ -1,0 +1,19 @@
+services:
+  instancer:
+    image: hitcon25-instancer
+    build: .
+    volumes:
+      - ./instancer:/instancer
+      - /var/run/docker.sock:/var/run/docker.sock
+      # ./challenge folder should contains a docker-compose.yml file
+      - ./challenge:/opt/challenge:ro
+      # if you have more than one services in config.json, mount it here
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    environment:
+      # SCOREBOARD_URL should point to the scoreboard service (for verifying team token)
+      - SCOREBOARD_URL=https://admin8c5cb014.hitconctf.com
+      # port of the instancer service
+      - PORT=3000

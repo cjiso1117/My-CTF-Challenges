@@ -1,0 +1,15 @@
+{
+	"title": "[[Note]] Instancer",
+	"stop_after": 300,
+	"reverse_proxy": false,
+	"iptables": true,
+	"services": {
+		"challenge": {
+			"name": "nginx",
+			"mode": "tcp",
+			"dir": "/opt/challenge",
+			"base_port": 30000,
+			"connect_str": "<a href=\"http://{host}:{port}\" target=\"_blank\">http://{host}:{port}</a>"
+		}
+	}
+}

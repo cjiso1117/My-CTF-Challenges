@@ -1,0 +1,49 @@
+FROM php:8.4.11-apache
+
+
+# Get user ID and group ID from build args (will be passed from docker-compose)
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    iproute2 \
+    net-tools \
+    procps \
+    sudo \
+    git \
+    zip
+# firefox, from ChatGPT
+RUN apt-get install -y \
+  libgtk-3-0 \
+  libx11-xcb1 \
+  libdbus-glib-1-2 \
+  libxt6 \
+  libasound2 \
+  libxdamage1 \
+  libxrandr2 \
+  libgbm1 \
+  libnss3 \
+  fonts-liberation \
+  xdg-utils
+
+RUN a2enmod rewrite
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
+# Install npm
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y nodejs 
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Create a non-root user with the same UID/GID as the host user
+RUN groupadd -g ${GROUP_ID} dev && \
+    useradd -u ${USER_ID} -g dev -m -s /bin/bash dev && \
+    echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN chown -R dev:dev /var/www/html
+RUN echo 'FLAG{test}' > /flag
+# Switch to non-root user
+USER dev
+WORKDIR /var/www/html
+EXPOSE 80
+CMD ["apache2-foreground"]
